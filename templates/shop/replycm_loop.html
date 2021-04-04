@@ -1,0 +1,50 @@
+<!-----------------------SHOW COMMNETS----------------------------------------->
+
+    {% for cm in cm.romment.reply %}
+    <p>------------------------------------------------------------------------------</p>
+        <div class="ps-review">
+          <div class="ps-review__content">
+            <header>
+              <p>Reply by <a href="">{{cm.user}}</a>{{cm.created}}</p> <button onclick="myFunction2()" >reply</button>
+            </header>
+            <p>{{cm.body}}</p>
+<!-----------------------ADD COMMENT REPLY  ------------------------------------------>  
+                   
+            <form id='repcmloop' action="{% url 'shop:add-reply' product.slug cm.pk  %}" class="ps-product__review" method="post" style="display: none;">
+              {% csrf_token %}
+              <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                      <div class="form-group">
+                        {{form.body}}
+                      </div>
+                      <!---rating-->
+                      <div class="form-group">
+                        <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>
+                      </div>
+                    </div>
+              </div>
+            </form>
+<!-----------------------END ADD REPLY------------------------------------------>
+<!-----------------------SHOW REPLY COMMNETS------------------------------------>
+            {% if cm.romment.reply %}
+              {% include 'shop/replycm_loop.html' %}
+            {% endif %}
+<!-----------------------END SHOW REPLY COMMNETS-------------------------------->
+          </div>
+        </div>
+
+    {% endfor %}
+
+<!-----------------------END SHOW COMMNETS-------------------------------->
+
+
+<script>
+  function myFunction2() {
+    var x = document.getElementById("repcmloop");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+</script>

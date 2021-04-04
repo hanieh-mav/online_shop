@@ -1,0 +1,24 @@
+<div class="header--sidebar"></div>
+    <header class="header">
+      <div class="header__top">
+        <div class="container-fluid">
+          <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-6 col-xs-12 ">
+                  <p>460 West 34th Street, 15th floor, New York  -  Hotline: 804-377-3580 - 804-399-3580</p>
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+                {% if user.is_authenticated  %}
+                <div class="header__actions"><a href="{% url 'accounts:logout' %}">Logout</a> </div>
+                <div class="header__actions"><a href="#">Welcome {{user.first_name}}</a> </div>
+                <div class="header__actions"><a href="{% url 'accounts:user_order' %}">My Orders</a> </div>
+                  {% if user.is_authenticated and user.is_shopadmin or user.is_admin %}
+                    <div class="header__actions"><a href="{% url 'dashboard:index' %}">Dashboard</a> </div>
+                  {% endif %}
+                {% else %}
+                <div class="header__actions"><a href="{% url 'accounts:login' %}">Login</a> </div>
+                <div class="header__actions"><a href="{% url 'accounts:register' %}">Register</a> </div>
+                {% endif %}
+             </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %} Access user {% endblock %}
+
+
+{% block content %}
+
+{% if object_list %}
+
+<div class="card-header">
+  <h3 class="card-title">Order List</h3>
+</div>
+<!-- /.card-header -->
+<div class="card-body table-responsive p-0">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>is admin</th>
+        <th>is shopAdmin</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for user in object_list %}
+      
+        <tr>
+          <td><a href="{% url 'dashboard:user-detail' user.pk %}">{{user.first_name}}</td>
+          <td>{{user.last_name}}</td>
+          <td>{{user.email}}</td>
+          <td>
+              {% if user.is_admin  %}
+              <span class="fas fa-check" style="color: green;"></span>
+              {% else %}
+              <span class="fa fa-times" style="color: red;"></span>
+              {% endif %}
+          </td>
+          <td>
+            {% if user.is_shopadmin  %}
+            <span class="fas fa-check" style="color: green;"></span>
+            {% else %}
+            <span class="fa fa-times" style="color: red;"></span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+<!-- /.card-body -->
+
+<!-----------------------Pagination--------------------------->
+{% if page_obj.has_other_pages %}
+<div class="row">
+  <div class="col-sm-12 col-md-5">
+  </div>
+  <div class="col-sm-12 col-md-7">
+    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="paginate_button page-item previous " id="dataTable_previous">
+          <a href="{% url 'dashboard:index' page_obj.previous_page_number %}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+        </li>
+        {% else %}
+        <li class="paginate_button page-item previous disabled" id="dataTable_previous">
+          <a  aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+        </li>
+        {% endif %}
+       {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li class="paginate_button page-item active">
+          <a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+        </li>
+        {% else %}
+        <li class="paginate_button page-item ">
+          <a href="{% url 'dashboard:index' i %}" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+        </li>
+        {% endif %}
+       {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="paginate_button page-item next" id="dataTable_next">
+          <a href="{% url 'dashboard:index' page_obj.next_page_number %}" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+        </li>
+        {% else %}
+        <li class="paginate_button page-item next disabled" id="dataTable_next">
+          <a aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+<!-----------------------End Pagination--------------------------->
+{% endif %}
+{% else %}
+
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <h1 class="h3 mb-4 text-gray-800">YouR shop doesn't have Order</h1>
+
+</div>
+<!-- /.container-fluid -->
+
+{% endif %}
+        
+{% endblock %}

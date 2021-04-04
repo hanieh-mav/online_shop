@@ -1,0 +1,9 @@
+<ul class="sub-menu">         
+    {% for cat in cat.scat.subcategory %}
+    <li class="menu-item menu-item-has-children dropdown"><a href="{% url 'shop:category_detail' cat.slug %}">{{cat.name}}</a>
+        {% if cat.scat.subcategory %}
+            {% include 'partials/category_navbarloop.html' %}
+        {% endif %}       
+    </li>      
+    {% endfor %}
+</ul>

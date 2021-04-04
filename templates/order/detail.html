@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %} Orderering {% endblock %}
+
+{% block content %}
+<main class="ps-main">
+    <div class="ps-checkout pt-80 pb-80">
+      <div class="ps-container">
+        <form class="ps-checkout__form" action="do_action" method="post">
+          <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                  <div class="ps-checkout__order">
+                    <header>
+                      <h3>Your Order</h3>
+                    </header>
+                    <div class="content">
+                      <table class="table ps-checkout__products">
+        
+                        <tbody>
+                          <tr>
+                            <td>Order Total</td>
+                            <td>{{order.total_price}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <footer>
+                      <h3>Payment Method</h3>
+                      <div class="form-group cheque">
+                        <div class="ps-radio">
+                          <input class="form-control" type="radio" id="rdo01" name="payment" checked>
+                          <label for="rdo01">Cheque Payment</label>
+                          <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                        </div>
+                      </div>
+                      <div class="form-group paypal">
+                        <div class="ps-radio ps-radio--inline">
+                          <input class="form-control" type="radio" name="payment" id="rdo02">
+                          <label for="rdo02">Paypal</label>
+                        </div>
+                        <ul class="ps-payment-method">
+                          <li><a href="#"><img src="images/payment/1.png" alt=""></a></li>
+                          <li><a href="#"><img src="images/payment/2.png" alt=""></a></li>
+                          <li><a href="#"><img src="images/payment/3.png" alt=""></a></li>
+                        </ul>
+                        <button class="ps-btn ps-btn--fullwidth">Place Order<i class="ps-icon-next"></i></button>
+                      </div>
+                    </footer>
+                  </div>
+                  <div class="ps-shipping">
+                    <h3>FREE SHIPPING</h3>
+                    <p>YOUR ORDER QUALIFIES FOR FREE SHIPPING.<br> <a href="#"> Singup </a> for free shipping on every order, every time.</p>
+                  </div>
+                </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+{% endblock %}

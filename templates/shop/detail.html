@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load ratings %}
+
+{% block title %} Detail {% endblock %}
+
+{% block content %}
+ <div class="ps-product--detail pt-60">
+        <div class="ps-container">
+          <div class="row">
+            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+              <div class="ps-product__thumbnail">
+                <div class="ps-product__image">
+                  <div class="item"><img class="zoom" src="{{product.photo.url}}" alt="" data-zoom-image="images/shoe-detail/3.jpg"></div>
+                </div>
+              </div>
+             
+              <div class="ps-product__info">
+                <div class="ps-product__rating">
+                  {% ratings product %}
+                </div>
+                <h1>{{product.name}}</h1>
+                <p>The storage is {{product.price}}</p>
+                <p class="ps-product__category">
+                  {% for cat in product.category.all %}
+                  <a href="{% url 'shop:category_detail' cat.slug %}"> #{{cat.name}}</a>
+                  {% endfor %}
+                </p>
+                <h3 class="ps-product__price">£ {{product.price}}</h3>
+                <div class="ps-product__shopping">
+                  <form method="POST" action="{% url 'cart:cart_add' product.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" value="1" name='quantity'>
+                    <button class="ps-btn mb-10" >Add to cart<i class="ps-icon-next"></i></button>
+                  </form>
+                </i></a>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="ps-product__content mt-50">
+                <ul class="tab-list" role="tablist">
+                  <li class="active"><a href="#tab_01" aria-controls="tab_01" role="tab" data-toggle="tab">Overview</a></li>
+                  <li><a href="#tab_02" aria-controls="tab_02" role="tab" data-toggle="tab">Review</a></li>
+                </ul>
+              </div>
+              <div class="tab-content mb-60">
+                <div class="tab-pane active" role="tabpanel" id="tab_01">
+                  <p>{{product.description}}</p>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab_02">
+                  <p class="mb-20">{{comment.count}} review for <strong>{{product.name}}</strong></p>
+
+<!-----------------------SHOW COMMNETS------------------------------------------>          
+                  {% for cm in comment %}
+                    {% if cm.reply == None %}
+                      <div class="ps-review">
+                        <div class="ps-review__content">
+                          <header>
+                            <p>By <a href="">{{cm.user}}</a>{{cm.created}}</p> <button onclick="myFunction()" >reply</button>
+                          </header>
+                          <p>{{cm.body}}</p>
+<!-----------------------ADD COMMENT REPLY  ------------------------------------------>  
+                   
+                          <form id='repcm' action="{% url 'shop:add-reply' product.slug cm.pk  %}" class="ps-product__review" method="post" style="display: none;">
+                            {% csrf_token %}
+                            <div class="row">
+                                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                    <div class="form-group">
+                                      {{form.body}}
+                                    </div>
+                                    <!---rating-->
+                                    <div class="form-group">
+                                      <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>
+                                    </div>
+                                  </div>
+                            </div>
+                          </form>
+<!-----------------------END ADD REPLY------------------------------------------>
+<!-----------------------SHOW REPLY COMMNETS------------------------------------>
+                          {% if cm.romment.reply %}
+                            {% include 'shop/replycm_loop.html' %}
+                          {% endif %}
+<!-----------------------END SHOW REPLY COMMNETS-------------------------------->
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+
+<!-----------------------END SHOW COMMNETS-------------------------------->
+
+
+<!-----------------------ADD  COMMNETS------------------------------------->
+
+                  <form class="ps-product__review" method="post">
+                    {% csrf_token %}
+                    <h4>ADD YOUR REVIEW</h4>
+                    <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                            <div class="form-group">
+                              <label>Your Review:</label>
+                              {{form.body}}
+                            </div>
+                            <!---rating-->
+                            <div class="form-group">
+                              <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>
+                            </div>
+                          </div>
+                    </div>
+                  </form>
+<!-----------------------END ADD COMMNETS-------------------------------->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+        function myFunction() {
+          var x = document.getElementById("repcm");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
+  </script>
+        
+
+{% endblock %}

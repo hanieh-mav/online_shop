@@ -1,0 +1,16 @@
+<div class="navigation__column center">
+  <ul class="main-menu menu">
+    <li class="menu-item menu-item-has-children dropdown"><a href="{% url 'shop:home' %}">Home</a></li>
+      {% for cat in category %}
+        {% if cat.subcat == None %}
+          <li class="menu-item menu-item-has-children dropdown">
+            <a href="{% url 'shop:category_detail' cat.slug %}">{{cat.name}}</a>
+            {% if cat.scat.subcategory %}
+              {% include 'partials/category_navbarloop.html' %}
+            {% endif %}
+          </li>
+        {% endif %}
+      </li>
+      {% endfor %}
+  </ul>
+</div>

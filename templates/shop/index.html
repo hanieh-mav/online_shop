@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load ratings %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<h1>{{name}}</h1>
+
+<div class="ps-section--features-product ps-section masonry-root pt-100 pb-100">
+    <div class="ps-container">
+
+      <div class="ps-section__content pb-50">
+        <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
+          <div class="ps-masonry">
+            <div class="grid-sizer"></div>
+
+            {% for product in products %}
+            <div class="grid-item kids">
+            <div class="grid-item__content-wrapper">
+              <div class="ps-shoe mb-30">
+                <div class="ps-shoe__thumbnail">
+                <img src="{{product.photo.url}}" alt="{{product.name}}" style="width: 250px; height:300px"><a class="ps-shoe__overlay" href="{% url 'shop:detail' product.slug %}"></a>
+                </div>
+                <div class="ps-shoe__content">
+                  <div class="ps-shoe__variants">
+                    {% ratings product %}
+                  </div>
+                  <div class="ps-shoe__detail">
+                    <p class="ps-shoe__categories">{{product.name}}</p>
+                    
+                    <span class="ps-shoe__price">{{product.price}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+
+<!-----------------------Pagination--------------------------->
+{% if products.has_other_pages %}
+<div class="row">
+  <div class="col-sm-12 col-md-5">
+  </div>
+  <div class="col-sm-12 col-md-7">
+    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+      <ul class="pagination">
+        {% if products.has_previous %}
+        <li class="paginate_button page-item previous " id="dataTable_previous">
+          <a href="{% url 'shop:home' products.previous_page_number %}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+        </li>
+        {% else %}
+        <li class="paginate_button page-item previous disabled" id="dataTable_previous">
+          <a  aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+        </li>
+        {% endif %}
+       {% for i in products.paginator.page_range %}
+        {% if products.number == i %}
+        <li class="paginate_button page-item active">
+          <a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+        </li>
+        {% else %}
+        <li class="paginate_button page-item ">
+          <a href="{% url 'shop:home' i %}" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">{{i}}</a>
+        </li>
+        {% endif %}
+       {% endfor %}
+        {% if products.has_next %}
+        <li class="paginate_button page-item next" id="dataTable_next">
+          <a href="{% url 'shop:home' products.next_page_number %}" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+        </li>
+        {% else %}
+        <li class="paginate_button page-item next disabled" id="dataTable_next">
+          <a aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+<!-----------------------End Pagination--------------------------->
+{% endif %}
+
+    </div>
+  </div>
+  
+
+
+{% endblock %}

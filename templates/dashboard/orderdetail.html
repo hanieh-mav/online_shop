@@ -1,0 +1,55 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Order Detail {% endblock %}
+
+{% block content %}
+
+<div class="card-header ">
+    <h3 class="card-title">Order List</h3>
+
+    <div class="card-tools">
+      <div class="input-group input-group-sm" style="width: 150px;">
+        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>quantity</th>
+          <th>get_cost</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for item in order_item.item.all %}
+          <tr>
+            <td>{{item.product}}</td>
+            <td>{{item.price}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.get_cost}}</td>
+          </tr>
+         {% endfor %}
+      </tbody>
+    </table>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.status|as_crispy_field }}
+      <br>
+      <button type="submit" class="btn btn-primary"> submit </button>
+      {% if request.user.is_admin %}
+      <a href="{% url 'dashboard:delete-order' order_item.pk %}"  class="btn btn-danger">Delete</a>
+      {% endif %}
+    </form>
+  </div>
+  <!-- /.card-body -->
+        
+{% endblock %}

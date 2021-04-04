@@ -1,0 +1,9 @@
+{% extends "star_ratings/widget_base.html" %}
+{% block rating_detail %}
+<br>
+    {% if not user.is_authenticated %}
+    <a href="{% url 'accounts:login' %}" type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Click to Log in">
+        Please Log in first
+    </a>
+    {% endif %}
+{% endblock %}

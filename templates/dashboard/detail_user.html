@@ -1,0 +1,46 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} User Detail {% endblock %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title mb-0 float-left"> User Detail</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+    
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-4 text-gray-800">{{user.first_name}}</h1>
+            <h1 class="h3 mb-4 text-gray-800">{{user.last_name}}</h1>
+          
+          </div>
+          <!-- /.container-fluid -->
+          
+        </div>
+       
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6 ">
+                  {{ form.is_shopadmin|as_crispy_field }}
+                </div>
+            </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary"> submit </button>
+            {% if  request.resolver_match.kwargs.pk %}
+            <a href="{% url 'dashboard:delete-user' request.resolver_match.kwargs.pk %}"  class="btn btn-danger">Delete</a>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+{% endblock %}

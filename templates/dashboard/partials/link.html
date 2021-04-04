@@ -1,0 +1,8 @@
+
+<li class="nav-item {% if request.resolver_match.url_name == link_name %} active {% endif %}">
+<a href="{% url link %}" class="nav-link ">
+    <i class="fa fa-{{classes}} nav-icon"></i>
+    <span>{{content}}</span>
+</a>
+</li>
+

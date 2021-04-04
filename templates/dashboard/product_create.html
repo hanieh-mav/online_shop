@@ -1,0 +1,60 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Create Product {% endblock %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title mb-0 float-left">Add Product</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-6 ">
+                  {{ form.name|as_crispy_field }}
+                  {{ form.slug|as_crispy_field }}
+                </div>
+                <div class="col-12 ">
+                    {{ form.description|as_crispy_field }}
+                </div>
+                <div class="col-6 ">
+                    {{ form.category|as_crispy_field }}
+                </div>
+                <div class="col-6 ">
+                    {{ form.photo|as_crispy_field }}
+    
+                </div>
+                <div class="col-6 ">
+                    {{ form.price|as_crispy_field }}
+                </div>
+                <div class="col-6 ">
+                    {{ form.storage|as_crispy_field }}
+                </div>
+                {% if user.is_admin %}
+                    <div class="col-6 ">
+                        {{ form.status|as_crispy_field }}
+                    </div>
+                {% endif %}
+                <div class="col-6 ">
+                  {{ form.available|as_crispy_field }}
+                </div>
+            </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary"> submit </button>
+            {% if  request.resolver_match.kwargs.pk %}
+            <a href="{% url 'dashboard:delete-product' request.resolver_match.kwargs.pk %}"  class="btn btn-danger">Delete</a>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+{% endblock %}

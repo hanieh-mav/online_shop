@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %} Order List  {% endblock %}
+
+{% block content %}
+ 
+ <main class="ps-main">
+  <div class="ps-content pt-80 pb-80">
+    <div class="ps-container">
+      <div class="ps-cart-listing">
+        <table class="table ps-cart__table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Total price</th>
+              <th>is_paid</th>
+              <th>status</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for order in orders %}
+                <tr>
+                    <td><a href="{% url 'accounts:user_order_detail' order.pk %}">{{order.created}}</a></td>
+                    <td>{{order.total_price}}</td>
+                    <td>
+                      {% if order.is_paid  %}
+                      <span class="fas fa-check" style="color: green;"></span>
+                      {% else %}
+                      <span class="fa fa-times" style="color: red;"></span>
+                      {% endif %}
+                  </td>
+                    <td>
+                      {% if order.status == 's' %}
+                        <span class="badge badge-success"> sent </span>
+                        {% elif order.status == 'o' %}
+                        <span class="badge badge-danger"> out of range </span>
+                        {% elif order.status == 'w' %}
+                        <span class="badge badge-warning"> waiting </span>
+                        {% elif order.status == 'p' %}
+                        <span class="badge badge-primary"> on proccess </span>
+                        {% endif %}
+                  </td>
+                </tr>
+            {% endfor %}
+          </tbody>
+          
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

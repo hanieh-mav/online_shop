@@ -1,0 +1,24 @@
+{% load base_tags %}
+
+<nav class="navigation">
+    <div class="container-fluid">
+      <div class="navigation__column left">
+        <div class="header__logo"><a class="ps-logo" href="index.html"><img src="images/logo.png" alt=""></a></div>
+      </div>
+     
+              
+      {% category_navbar %}
+            
+      <div class="navigation__column right">
+        <form class="ps-search--header" action="{% url 'shop:search' %}"  method="get">
+          <input name="search">
+          <button type="submit"><i class="ps-icon-search"></i></button>
+        </form>
+        <div class="ps-cart">
+          <a class="ps-cart__toggle" href="{% url 'cart:cart' %}"><span></span>
+            </span><i class="ps-icon-shopping-cart"></i></a>
+            
+        </div>
+      </div>
+    </div>
+</nav>
